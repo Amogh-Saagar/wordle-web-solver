@@ -6758,6 +6758,8 @@ function on_click(){
         var guesses_cache = [];
         var yellow_all = [];
       	var all_grey = [];
+      	
+            var all_green = [];
 		const words = en;
         var guesses = words; 
         for (let i = 1; i<6; i++){
@@ -6770,23 +6772,28 @@ function on_click(){
         }
             var green = document.getElementById("green" + i).value.split(' ');
             for (var j = 0; j<green.length; j++){
+            if (green[j] != ''){
                 correct[word.indexOf(green[j])] = green[j];
+                all_green.push(green[j])
+            
             }
-            var yellow = document.getElementById("yellow" + i).value.split();
-            yellow_all += yellow;
+            }
+            var yellow = document.getElementById("yellow" + i).value.split(' ');
+            yellow_all = yellow_all.concat(yellow)
+            console.log(yellow_all)
+            console.log(yellow_all)
             guesses_cache = [];
             for (var j = 0; j<word.length; j++){
             	if (!(green.includes(word[j]) || yellow_all.includes(word[j]))){
             		all_grey.push(word[j])
             	}
             }
-            console.log(all_grey)
             //loops through guesses to elminate all words which are not compatible
             for (var j = 0; j<guesses.length; j++){
                 var run = true;
                 //logic for green
                 for (var k = 0; k<correct.length; k++){
-                    if (correct[k] != null && guesses[j].indexOf(correct[k]) != word.indexOf(correct[k])){
+                    if (correct[k] != null && guesses[j][k] != correct[k])	{
                         run = false;
                     }
                     }
