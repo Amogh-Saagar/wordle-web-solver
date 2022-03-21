@@ -12,8 +12,6 @@ en_guesses = en.filter(word => {
 	})
     return rum
 })
-console.log(en_guesses)
-console.log(en_guesses)
 var yellow_all = [];
 var all_grey = [];
 var all_green = [];
@@ -21,7 +19,6 @@ var used = [];
 function on_click() {
 
 var all_green = [];
-    console.log('ran')
     for (let i = 1; i < 6; i++) {
         //reading the html
         var word = document.getElementById("word" + i).value;
@@ -79,8 +76,8 @@ var all_green = [];
         guesses = en.filter(word => run(word));
         //throwing out the output
         document.getElementById('output').innerHTML = 'guesses are:' + guesses.join(', ');
-        //working on finding good guesses
-        function get_good_guesses(word, x){
+        //finding good tries 
+        function get_good_tries(word, x){
             var rank = 0
             word.split('').forEach(letter => {
                 if (word.match(RegExp(letter)>-1)){
@@ -97,7 +94,7 @@ var all_green = [];
         var run1 = true;
         var x = 0
         while (run1){
-            tries = en_guesses.filter(word => get_good_guesses(word, x))
+            tries = en_guesses.filter(word => get_good_tries(word, x))
             if (tries.length != 0){
                 run1 = false
             }
@@ -106,7 +103,6 @@ var all_green = [];
             }
             x += 1
         }
-        console.log(tries)
         document.getElementById('output-tries').innerHTML = 'good tries are:' + tries.join(', ');
     }
 }
