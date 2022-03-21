@@ -3,11 +3,25 @@ var en = ["boyds", "steel", "borne", "seine", "wrack", "rooks", "scaly", "sammy"
 
 var correct = '.....';
 var guesses = [];
+en_guesses = en.filter(word => {
+    rum = true
+	word.split('').forEach(letter => {
+		if (word.indexOf(letter) != word.lastIndexOf(letter)){
+            rum = false
+        }
+	})
+    return rum
+})
+console.log(en_guesses)
+console.log(en_guesses)
 var yellow_all = [];
 var all_grey = [];
 var all_green = [];
 var used = [];
 function on_click() {
+
+var all_green = [];
+    console.log('ran')
     for (let i = 1; i < 6; i++) {
         //reading the html
         var word = document.getElementById("word" + i).value;
@@ -35,10 +49,11 @@ function on_click() {
         yellow_expres = yellow_all.map(yellow => '(?=.*' + yellow + ')').join('')
         all_grey = all_grey.concat(word.split('').filter(i => (all_green.indexOf(i) == -1 && yellow_all.indexOf(i) == -1)));
         grey_expres = all_grey.map(grey => '(?=.*' + grey + ')').join('');
-        used = used.concat(yellow_all, all_green, all_grey);
-        used_expres = used.map(letter => '(?=.*' + letter + ')').join('')
+        used = used.concat(word.split(''))
+        if (used.indexOf('') > -1) {
+            used.splice(used.indexOf('') , 1)
+        }
         //initisialising the regex patterns
-        used_expres = new RegExp(used_expres)
         grey_expres = new RegExp(grey_expres);
         yellow_expres = new RegExp(yellow_expres);
         green_expres = new RegExp(correct);
@@ -65,6 +80,34 @@ function on_click() {
         //throwing out the output
         document.getElementById('output').innerHTML = 'guesses are:' + guesses.join(', ');
         //working on finding good guesses
+        function get_good_guesses(word, x){
+            var rank = 0
+            word.split('').forEach(letter => {
+                if (word.match(RegExp(letter)>-1)){
+                    rank += word.match(RegExp(letter))
+                    
+                }
+            });
+            
+                if (rank > x){
+                    return false
+                }
+                return true
+        }
+        var run1 = true;
+        var x = 0
+        while (run1){
+            tries = en_guesses.filter(word => get_good_guesses(word, x))
+            if (tries.length != 0){
+                run1 = false
+            }
+            if (x >= 4){
+            	run1 = false
+            }
+            x += 1
+        }
+        console.log(tries)
+        document.getElementById('output-tries').innerHTML = 'good tries are:' + tries.join(', ');
     }
 }
 
